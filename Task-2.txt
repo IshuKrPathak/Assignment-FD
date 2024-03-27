@@ -1,0 +1,76 @@
+Task 2 :
+
+ A multi pick up and drop shipment is to be divided into multiple trips, mention the logic to figure out of the given list of trips are legit and fulfils the shipment with typescript. (Please note:  A shipment can have multiple pick up points and drop points, and a trip can also have multiple pick up points , drop points and an additional option of a warehouse a via point.)
+Example:  
+For a shipment with Pick ups : (A, B), Drop points (C,D),
+a) Valid set of trips are :  Trip 1: (A,W), Trip 2: (B, W), Trip 3: (W,C), Trip 4: (W, D).
+b) Invalid set of trips are : Trip 1: (A,W1), Trip 2: (B, W2), Trip 3: (W3,C), Trip 4: (W4, D).
+
+
+a) Mention the logic to figure out legit and valid trips.
+To determine if a given list of trips fulfills a multi pick up and drop shipment, the following logic can be applied in TypeScript:
+
+Ensure Start and End Points Exist: Verify that each trip starts from one of the pick-up points and ends at one of the drop points or the warehouse (via point).
+
+Valid Trip Connections: Check if there is a valid sequence of trips connecting all pick-up points to all drop points (including the warehouse).
+
+No Missing Stops: Ensure that each pick-up point is visited before any of its corresponding drop points in the sequence of trips.
+
+Warehouse Handling: Handle trips involving the warehouse (via point) correctly, making sure it serves as an intermediate stop between pick-up and drop points.
+
+Avoid Revisits: Ensure that a pick-up or drop point is not visited more than once in the sequence of trips.
+
+b) List down the assumptions made in the logic, if any
+To determine if a given list of trips fulfills a multi pick up and drop shipment:
+
+Start and End Point Existence: The logic assumes that each trip starts from one of the pick-up points (A, B) and ends at one of the drop points (C, D) or the warehouse (W).
+
+Valid Trip Connections: It is assumed that there exists a valid sequence of trips connecting all pick-up points to all drop points (including the warehouse), allowing the shipment to reach its destination.
+
+No Missing Stops: The logic ensures that each pick-up point is visited before any of its corresponding drop points in the sequence of trips. This prevents missing any stops during the shipment process.
+
+Warehouse Handling: Trips involving the warehouse (via point) are handled correctly, considering it as an intermediate stop between pick-up and drop points.
+
+Avoid Revisits: The assumption is made that a pick-up or drop point is not revisited within the sequence of trips, ensuring efficiency and proper order of delivery.
+
+c) Typescript code for the logic (It can be a GitHub link)
+// Define the valid pick-up and drop points
+const validPickups: Set<string> = new Set(["A", "B"]);
+const validDrops: Set<string> = new Set(["C", "D"]);
+
+// Define the warehouse
+const warehouse: string = "W";
+
+// Function to check if a trip is valid
+function isValidTrip(trip: [string, string]): boolean {
+    const [pickup, drop] = trip;
+    // Check if pick-up and drop points are valid
+    if (!validPickups.has(pickup) || !validDrops.has(drop)) {
+        return false;
+    }
+    // Check if trip involving warehouse is valid
+    if (pickup !== warehouse && drop !== warehouse) {
+        return false;
+    }
+    // Check if via point (warehouse) is in-between pick-up and drop
+    if (pickup === warehouse && drop === warehouse) {
+        return false;
+    }
+    return true;
+}
+
+// Given list of trips
+const trips: Array<[string, string]> = [
+    ["A", "W1"],
+    ["B", "W2"],
+    ["W3", "C"],
+    ["W4", "D"]
+];
+
+// Validate each trip
+const validTrips: Array<[string, string]> = trips.filter(trip => isValidTrip(trip));
+
+// Print the valid trips
+console.log("Valid trips:", validTrips);
+
+

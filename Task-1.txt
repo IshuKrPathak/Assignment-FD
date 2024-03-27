@@ -1,0 +1,104 @@
+Task 1 : 
+
+You have 3 timestamps for list of users along with the device details : logged_in, logged_out, and lastSeenAt (for the device during the log in period). Please note: Users can log in from multiple devices, users are generally logged in for a longer duration of time 6 months or so.
+
+a) Mention the logic to figure out monthly logged in and active users
+--> To determine monthly logged-in users we have to follow these steps :-
+
+Step-1:- Identify unique users who logged in during the month by checking the "logged_in" timestamp.
+Step-2:- Count each user once, even if they logged in multiple times in the month.
+Step-3:- Ensure to consider the duration of their login sessions, spanning across multiple days if necessary.
+
+ To determine active users we have to follow these steps :-
+
+Step-1:- Define  a specific criterion  based on which the users are "active", such as users who logged in at least once in the past month.
+Step-2:- Assume users who logged in within the past month (based on "logged_in" timestamp) and also those whose last activity ("lastSeenAt")    falls within the past month.
+Step-3:- Take account for users who might have logged in once but remained active by having recent "lastSeenAt" timestamps.
+
+
+b) List down the assumptions made in the logic
+Following are the assumptions that are necessary to determine monthly-logged-in and active users are :- 
+
+1. Users are identified uniquely, likely by user IDs.
+2. Each login session has corresponding logged_in and logged_out timestamps.
+3. The lastSeenAt timestamp gives the latest activity of the user on a particular device during the login period.
+4. Users may log-in from multiple devices, but their activity is consolidated based on user ID.
+5. Users remain logged in for extended periods, extended up to 6 months.
+
+
+c) Typescript code for the logic (It can be a GitHub link)
+
+// Define user login data structure
+interface UserLoginData {
+    userId: string;
+    logged_in: Date;
+    logged_out: Date;
+    lastSeenAt: Date;
+}
+
+// Sample user login data
+const userLoginData: UserLoginData[] = [
+    { userId: "user1", logged_in: new Date("2024-02-10"), logged_out: new Date("2024-02-10"), lastSeenAt: new Date("2024-02-10") },
+    { userId: "user2", logged_in: new Date("2024-02-15"), logged_out: new Date("2024-02-15"), lastSeenAt: new Date("2024-03-20") },
+    { userId: "user3", logged_in: new Date("2024-03-05"), logged_out: new Date("2024-03-05"), lastSeenAt: new Date("2024-03-25") },
+    // Add more user login data as needed
+];
+
+// Function to determine monthly logged-in users
+function calculateMonthlyLoggedInUsers(loginData: UserLoginData[], year: number, month: number): string[] {
+    const loggedInUsers: string[] = [];
+    loginData.forEach((entry) => {
+        if (entry.logged_in.getFullYear() === year && entry.logged_in.getMonth() === month) {
+            if (!loggedInUsers.includes(entry.userId)) {
+                loggedInUsers.push(entry.userId);
+            }
+        }
+    });
+    return loggedInUsers;
+}
+
+// Function to determine active users within a month
+function calculateActiveUsers(loginData: UserLoginData[], year: number, month: number): string[] {
+    const activeUsers: string[] = [];
+    loginData.forEach((entry) => {
+        if ((entry.logged_in.getFullYear() === year && entry.logged_in.getMonth() === month) || 
+            (entry.lastSeenAt.getFullYear() === year && entry.lastSeenAt.getMonth() === month)) {
+            if (!activeUsers.includes(entry.userId)) {
+                activeUsers.push(entry.userId);
+            }
+        }
+    });
+    return activeUsers;
+}
+
+// Usage
+const year = 2024;
+const month = 2; // Example: March
+const monthlyLoggedInUsers = calculateMonthlyLoggedInUsers(userLoginData, year, month);
+const activeUsers = calculateActiveUsers(userLoginData, year, month);
+
+console.log("Monthly Logged-In Users:", monthlyLoggedInUsers);
+console.log("Active Users:", activeUsers);
+
+Output- 
+
+Monthly Logged-In Users: [ 'user3' ]
+Active Users: [ 'user2', 'user3' ]
+
+d) Given an option to get more data regarding the same, what would be the fields / key values that would help to get better accurate values for the same and how would it help the time complexity of the operation.
+To improve accuracy and time complexity in tracking user activity, additional fields/key values can be beneficial:
+
+1. **Session ID**: Assigning a unique identifier to each login session helps distinguish between multiple logins from the same user across different devices. It ensures accurate tracking of individual sessions and prevents duplication of user activity.
+
+2. **Device ID**: Associating each device with a unique identifier enables precise identification of devices used for login sessions. This helps differentiate between logins from various devices and provides insights into user behavior across different platforms.
+
+3. **Session Duration**: Recording the duration of each login session allows for better understanding of user engagement and activity patterns. It helps identify prolonged sessions, frequent logouts, or irregular login durations, leading to more accurate analysis of user behavior.
+
+4. **Activity Timestamps**: In addition to login/logout timestamps, capturing timestamps for specific user actions within a session (such as page views, interactions, or transactions) provides granular insights into user activity patterns. This helps in determining the exact moments of user engagement and analyzing session-level interactions.
+
+5. **Geolocation Data**: Including geolocation information such as IP address or GPS coordinates helps track user logins from different locations. It enhances the accuracy of user activity monitoring by identifying unauthorized access or suspicious login attempts from unfamiliar locations.
+
+6. **User Agent**: Storing user agent information (e.g., browser or device type) provides context about the technology used for accessing the platform. It aids in understanding user preferences, optimizing the user experience, and detecting anomalies in device usage.
+
+Integrating these additional fields enhances data granularity, enabling more precise analysis of user activity and behavior. Moreover, efficient indexing and querying of these fields can optimize time complexity in retrieving and processing user activity data, leading to faster and more accurate insights.
+

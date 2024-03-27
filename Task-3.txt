@@ -1,0 +1,7 @@
+Task 3: Deploy the below completed task on Heroku (Or can be hosted anywhere else as per your preference) ,share the link to the deployed web app and the code can be shared via GitHub link
+
+The task is to create a simple dashboard web app which is desktop and mobile compatible, frontend using React + Redux. You could use Next.js if it's any helpful to build an isomorphic web app. Material UI library can be used for UI components.  Every line of the code must be written by you with proper comments and explanations wherever necessary, UI is expected to be appealing and almost match the app in the design /  screenshots.
+Design / Figma link for reference : 
+FIGMA DESIGN FILE 
+Google Drive 
+
