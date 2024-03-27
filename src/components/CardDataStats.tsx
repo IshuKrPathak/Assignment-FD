@@ -7,7 +7,7 @@ interface CardDataStatsProps {
   levelUp?: boolean;
   levelDown?: boolean;
   newSignUp?: boolean;
-  children: ReactNode;
+ 
 }
 
 const CardDataStats: React.FC<CardDataStatsProps> = ({
@@ -17,7 +17,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   levelUp,
   levelDown,
   newSignUp,
-  children,
+ 
 }) => {
   return (
     <div className=" dark:bg-dark-200 rounded-xl border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark">

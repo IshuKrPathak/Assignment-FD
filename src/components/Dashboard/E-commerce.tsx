@@ -13,28 +13,24 @@ const ECommerce: React.FC = () => {
           total="$56,915"
           rate="+ 45%"
           levelUp
-          children={undefined}
         ></CardDataStats>
         <CardDataStats
           title="Users"
           total="76.8%"
           rate="- 1.7%"
           levelDown
-          children={undefined}
         ></CardDataStats>
         <CardDataStats
           title="New Signups"
           total="116"
           rate="0.00"
           newSignUp
-          children={undefined}
         ></CardDataStats>
         <CardDataStats
           title="Retention"
           total="12.67%"
           rate="+ 0.6%"
           levelUp
-          children={undefined}
         ></CardDataStats>
       </div>
 
